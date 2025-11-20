@@ -1,0 +1,23 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        maven { url "https://artifactory.apps.bancolombia.com/maven-bancolombia" }
+    }
+}
+
+rootProject.name = 'ms_login_bancolombia'
+
+include ':app-service'
+include ':model'
+include ':usecase'
+project(':app-service').projectDir = file('./applications/app-service')
+project(':model').projectDir = file('./domain/model')
+project(':usecase').projectDir = file('./domain/usecase')
+include ':reactive-web'
+project(':reactive-web').projectDir = file('./infrastructure/entry-points/reactive-web')
+include ':transversal-log'
+project(':transversal-log').projectDir = file('./infrastructure/driven-adapters/transversal-log')
+include ':persistence'
+project(':persistence').projectDir = file('./infrastructure/driven-adapters/persistence')
+include ':jwt'
+project(':jwt').projectDir = file('./infrastructure/helpers/jwt')
