@@ -14,7 +14,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class SigninUserRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(SigninUserHandler signinUserHandler) {
+    public RouterFunction<ServerResponse> signinRouterFunction(SigninUserHandler signinUserHandler) {
         return route(POST(Paths.POST_SIGNIN_USER), signinUserHandler::postSigninUser);
     }
 

@@ -45,3 +45,36 @@ Los entry points representan los puntos de entrada de la aplicación o el inicio
 Este módulo es el más externo de la arquitectura, es el encargado de ensamblar los distintos módulos, resolver las dependencias y crear los beans de los casos de use (UseCases) de forma automática, inyectando en éstos instancias concretas de las dependencias declaradas. Además inicia la aplicación (es el único módulo del proyecto donde encontraremos la función “public static void main(String[] args)”.
 
 **Los beans de los casos de uso se disponibilizan automaticamente gracias a un '@ComponentScan' ubicado en esta capa.**
+
+- SIGNUP
+
+
+    curl --location 'http://localhost:8080/signup' \
+    --header 'message-Id: 7c005eb4-a8ce-4ab9-8862-100af8d28c11' \
+    --header 'x-request-id: 7c005eb4-a8ce-4ab9-8862-100af8d28c11' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    
+        "data": {
+            "email":"string",
+            "password":"string",
+            "name":"string"
+        }
+    
+    }'
+
+- SIGNIN
+
+
+    curl --location 'http://localhost:8080/signin' \
+    --header 'message-Id: 7c005eb4-a8ce-4ab9-8862-100af8d28c11' \
+    --header 'x-request-id: 7c005eb4-a8ce-4ab9-8862-100af8d28c11' \
+    --header 'Content-Type: application/json' \
+    --data '{
+    
+        "data": {
+            "email":"string",
+            "password":"string"
+        }
+    
+    }'

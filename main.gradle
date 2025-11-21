@@ -3,7 +3,6 @@ apply plugin: 'info.solidsoft.pitest.aggregator'
 allprojects {
     apply from: "${rootDir}/dependencyMgmt.gradle"
     repositories {
-        mavenCentral()
         maven { url "https://artifactory.apps.bancolombia.com/maven-bancolombia" }
     }
 }

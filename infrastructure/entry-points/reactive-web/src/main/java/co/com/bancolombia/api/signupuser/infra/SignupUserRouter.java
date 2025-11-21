@@ -14,7 +14,7 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 public class SignupUserRouter {
 
     @Bean
-    public RouterFunction<ServerResponse> routerFunction(SignupUserHandler signupUserHandler) {
+    public RouterFunction<ServerResponse> signupRrouterFunction(SignupUserHandler signupUserHandler) {
         return route(POST(Paths.POST_SIGNUP_USER), signupUserHandler::postSignupUser);
     }
 

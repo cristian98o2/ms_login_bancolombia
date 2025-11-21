@@ -3,11 +3,9 @@ package co.com.bancolombia.api.signupuser.application;
 import co.com.bancolombia.api.shared.common.application.HandleResponse;
 import co.com.bancolombia.api.shared.common.application.validations.HeadersValidation;
 import co.com.bancolombia.api.shared.common.infra.TransformRequest;
-import co.com.bancolombia.model.shared.common.value.Constants;
 import co.com.bancolombia.model.shared.cqrs.Command;
 import co.com.bancolombia.model.shared.cqrs.ContextData;
-import co.com.bancolombia.model.shared.log.model.Log;
-import co.com.bancolombia.model.user.model.Signup;
+import co.com.bancolombia.model.user.signup.model.Signup;
 import co.com.bancolombia.usecase.shared.email.ValidateEmailUseCase;
 import co.com.bancolombia.usecase.shared.password.ValidatePasswordUseCase;
 import co.com.bancolombia.usecase.signup.SignupUserUseCase;
@@ -29,8 +27,6 @@ public class SignupUserHandler {
     public Mono<ServerResponse> postSignupUser(ServerRequest serverRequest) {
         return HeadersValidation.validateHeaders(serverRequest)
                 .flatMap(contextData -> TransformRequest.fromSignupRequest(serverRequest, contextData)
-                        .doOnNext(signup -> contextData.setLog(
-                                buildLog(contextData)))
                         .flatMap(signup -> validateEmail(signup, contextData))
                         .flatMap(signup -> validatePassword(signup, contextData))
                         .flatMap(signup -> callUseCase(signup, contextData))
@@ -60,14 +56,5 @@ public class SignupUserHandler {
 
         return validateEmailUseCase.validateEmail(validationCommand)
                 .thenReturn(signup);
-    }
-
-    private Log buildLog(ContextData contextData) {
-        return Log.builder()
-                .action(Constants.SIGNUP)
-                .messageId(contextData.getMessageId().getValue().toString())
-                .description(Constants.SIGNUP_DESCRIPTION)
-                .classification(Constants.USER)
-                .build();
     }
 }

@@ -1,8 +1,0 @@
-dependencies {
-    implementation project(':model')
-    implementation project(':usecase')
-    implementation project(':reactive-web')
-    implementation 'org.springframework:spring-context'
-    implementation group: 'co.com.bancolombia', name: 'FunctionalLogsReactiveLib', version: "${functionalLogsReactive}"
-    implementation "io.cloudevents:cloudevents-json-jackson:${cloudeventsjsonjackson}"
-}

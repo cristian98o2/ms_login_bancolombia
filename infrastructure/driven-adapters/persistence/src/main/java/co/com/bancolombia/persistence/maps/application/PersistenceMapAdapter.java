@@ -6,10 +6,11 @@ import co.com.bancolombia.model.shared.cqrs.ContextData;
 import co.com.bancolombia.model.shared.cqrs.Query;
 import co.com.bancolombia.model.shared.exception.BusinessException;
 import co.com.bancolombia.model.shared.exception.ConstantBusinessException;
-import co.com.bancolombia.model.user.gateway.ManageUserGateway;
-import co.com.bancolombia.model.user.model.Signin;
-import co.com.bancolombia.model.user.model.Signup;
-import co.com.bancolombia.model.user.model.response.Session;
+import co.com.bancolombia.model.user.signin.gateway.SigninGateway;
+import co.com.bancolombia.model.user.signin.model.Signin;
+import co.com.bancolombia.model.user.signin.model.response.Session;
+import co.com.bancolombia.model.user.signup.gateway.SignupGateway;
+import co.com.bancolombia.model.user.signup.model.Signup;
 import co.com.bancolombia.persistence.maps.domain.User;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -20,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Service
 @AllArgsConstructor
-public class PersistenceMapAdapter implements ManageUserGateway {
+public class PersistenceMapAdapter implements SigninGateway, SignupGateway {
 
     private final GenerateJWTAdapter generateJWTAdapter;
     private static final Map<String, User> USERS = new ConcurrentHashMap<>();
@@ -43,13 +44,13 @@ public class PersistenceMapAdapter implements ManageUserGateway {
     @Override
     public Mono<Session> validateUser(Query<Signin, ContextData> query) {
         if (!USERS.containsKey(query.payload().getEmail())){
-            return Mono.error(new BusinessException(ConstantBusinessException.USER_NOT_FOUND, query.context()));
+            throw new BusinessException(ConstantBusinessException.USER_NOT_FOUND, query.context());
         }
 
         User user = USERS.get(query.payload().getEmail());
 
         if (!user.getPassword().equals(query.payload().getPassword())){
-            return Mono.error(new BusinessException(ConstantBusinessException.INVALID_CREDENTIALS, query.context()));
+            throw new BusinessException(ConstantBusinessException.INVALID_CREDENTIALS, query.context());
         }
 
         try{
