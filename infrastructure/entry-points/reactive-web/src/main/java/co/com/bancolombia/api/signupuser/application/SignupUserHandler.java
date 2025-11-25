@@ -2,12 +2,12 @@ package co.com.bancolombia.api.signupuser.application;
 
 import co.com.bancolombia.api.shared.common.application.HandleResponse;
 import co.com.bancolombia.api.shared.common.application.validations.HeadersValidation;
-import co.com.bancolombia.api.shared.common.infra.TransformRequest;
+import co.com.bancolombia.api.shared.common.application.validations.TransformRequest;
+import co.com.bancolombia.api.shared.common.application.validations.ValidateEmail;
+import co.com.bancolombia.api.shared.common.application.validations.ValidatePassword;
 import co.com.bancolombia.model.shared.cqrs.Command;
 import co.com.bancolombia.model.shared.cqrs.ContextData;
 import co.com.bancolombia.model.user.signup.model.Signup;
-import co.com.bancolombia.usecase.shared.email.ValidateEmailUseCase;
-import co.com.bancolombia.usecase.shared.password.ValidatePasswordUseCase;
 import co.com.bancolombia.usecase.signup.SignupUserUseCase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -20,8 +20,6 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class SignupUserHandler {
 
-    private final ValidateEmailUseCase validateEmailUseCase;
-    private final ValidatePasswordUseCase validatePasswordUseCase;
     private final SignupUserUseCase signupUserUseCase;
 
     public Mono<ServerResponse> postSignupUser(ServerRequest serverRequest) {
@@ -47,14 +45,14 @@ public class SignupUserHandler {
     private Mono<Signup> validatePassword(Signup signup, ContextData contextData) {
         var validationCommand = new Command<>(signup.getPassword(), contextData);
 
-        return validatePasswordUseCase.validatePassword(validationCommand)
+        return ValidatePassword.validatePassword(validationCommand)
                 .thenReturn(signup);
     }
 
     private Mono<Signup> validateEmail(Signup signup, ContextData contextData) {
         var validationCommand = new Command<>(signup.getEmail(), contextData);
 
-        return validateEmailUseCase.validateEmail(validationCommand)
+        return ValidateEmail.validateEmail(validationCommand)
                 .thenReturn(signup);
     }
 }

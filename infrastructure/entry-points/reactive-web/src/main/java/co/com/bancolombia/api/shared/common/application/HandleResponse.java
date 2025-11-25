@@ -21,7 +21,7 @@ public class HandleResponse {
         return ServerResponse
                 .status(status)
                 .headers(buildHeaders(serverRequest, contextData))
-                .bodyValue(SuccessApiResponse.build(content, contextData));
+                .bodyValue(SuccessApiResponse.build(content));
     }
 
     private Consumer<HttpHeaders> buildHeaders(ServerRequest serverRequest, ContextData contextData) {

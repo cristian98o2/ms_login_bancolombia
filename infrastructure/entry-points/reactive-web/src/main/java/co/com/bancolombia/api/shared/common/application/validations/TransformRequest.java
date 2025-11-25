@@ -1,4 +1,4 @@
-package co.com.bancolombia.api.shared.common.infra;
+package co.com.bancolombia.api.shared.common.application.validations;
 
 import co.com.bancolombia.api.signinuser.domain.SigninRequest;
 import co.com.bancolombia.api.signupuser.domain.SignupRequest;

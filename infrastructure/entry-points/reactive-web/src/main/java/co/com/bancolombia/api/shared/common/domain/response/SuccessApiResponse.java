@@ -5,15 +5,13 @@ import lombok.Data;
 
 @Data
 public class SuccessApiResponse {
-    private Meta meta;
     private Object data;
 
-    private SuccessApiResponse(Meta meta, Object data) {
-        this.meta = meta;
+    private SuccessApiResponse(Object data) {
         this.data = data;
     }
 
-    public static SuccessApiResponse build(Object data, ContextData contextData) {
-        return new SuccessApiResponse(new Meta(contextData.getMessageId().getValue().toString()), data);
+    public static SuccessApiResponse build(Object data) {
+        return new SuccessApiResponse(data);
     }
 }
