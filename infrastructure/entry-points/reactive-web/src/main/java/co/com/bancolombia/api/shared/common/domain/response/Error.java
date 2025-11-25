@@ -7,5 +7,7 @@ import lombok.Data;
 @Builder
 public class Error {
     private String code;
-    private String detail;
+    private String message;
+    private Detail detail;
+    private Correlation correlation;
 }

@@ -4,23 +4,29 @@ import co.com.bancolombia.ecs.model.management.ErrorManagement;
 import co.com.bancolombia.model.shared.exception.BusinessException;
 import lombok.Data;
 
-import java.util.List;
 
 @Data
 public class ErrorApiResponse {
-    private Meta meta;
-    private List<Error> errors;
+    private Error errors;
 
-    private ErrorApiResponse(Meta meta, BusinessException exception) {
-        this.meta = meta;
-        this.errors = getErrors(exception.getConstantBusinessException());
+    private ErrorApiResponse(BusinessException exception) {
+        this.errors = getError(exception.getConstantBusinessException(), exception.getMetaInfo().getMessageId(),
+                exception.getXRequestId());
     }
 
     public static ErrorApiResponse build(BusinessException exception) {
-        return new ErrorApiResponse(new Meta(exception.getMetaInfo().getMessageId()), exception);
+        return new ErrorApiResponse(exception);
     }
 
-    private List<Error> getErrors(ErrorManagement exception) {
-        return List.of(Error.builder().code(exception.getErrorCode()).detail(exception.getMessage()).build());
+    private Error getError(ErrorManagement exception, String messageId, String xRequestId) {
+        return Error.builder()
+                .code(exception.getErrorCode())
+                .message(exception.getMessage())
+                .detail(new Detail())
+                .correlation(Correlation.builder()
+                        .messageId(messageId)
+                        .xRequestId(xRequestId)
+                        .build())
+                .build();
     }
 }

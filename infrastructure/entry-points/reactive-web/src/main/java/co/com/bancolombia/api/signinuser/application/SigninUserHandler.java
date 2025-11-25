@@ -2,7 +2,7 @@ package co.com.bancolombia.api.signinuser.application;
 
 import co.com.bancolombia.api.shared.common.application.HandleResponse;
 import co.com.bancolombia.api.shared.common.application.validations.HeadersValidation;
-import co.com.bancolombia.api.shared.common.infra.TransformRequest;
+import co.com.bancolombia.api.shared.common.application.validations.TransformRequest;
 import co.com.bancolombia.model.shared.cqrs.ContextData;
 import co.com.bancolombia.model.shared.cqrs.Query;
 import co.com.bancolombia.model.user.signin.model.Signin;
